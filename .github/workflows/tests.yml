@@ -2,11 +2,9 @@ name: Pylint
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull-request:
-      - feature/**
-      - bug/**
+    branches: [main, feature/**]
 
 jobs:
   lint:

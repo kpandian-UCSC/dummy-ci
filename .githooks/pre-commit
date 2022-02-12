@@ -3,11 +3,11 @@ LC_ALL=C
 
 local_branch="$(git rev-parse --abbrev-ref HEAD)"
 valid_branch_regex="^(feature|bug|chore|spike|research)\/[a-z0-9._-]+$"
-protected_branches="main"
+protected_branch="main"
 
-if [[ $local_branch = $branch ]]
+if [[ $local_branch = $protected_branch ]]
 then
-    echo "Cannot commit changes to Development or Production Branch"
+    echo "Cannot commit changes to main"
     exit 1
 fi
 

@@ -2,8 +2,7 @@
 
 path=$1
 
-# msg=$(cat $path)
-msg="FIXED"
+msg=$(cat $path)
 length=${#msg} 
 shopt -s nocasematch
 
