@@ -6,7 +6,7 @@ msg=$(cat $path)
 length=${#msg} 
 shopt -s nocasematch
 
-keywords=("fixed" "updated" "added" "deleted")
+keywords=("fix" "update" "add" "delete")
 valid=0
 
 for keyword in "${keywords[@]}"
@@ -17,7 +17,7 @@ do
     fi
 done
 
-if [[ $length>50 || $length<5 ]]
+if [[ $length -gt 50 || $length -lt 5 ]]
 then
     valid=0
 fi
