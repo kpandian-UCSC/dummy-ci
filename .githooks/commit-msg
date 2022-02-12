@@ -1,0 +1,32 @@
+#!/bin/sh
+
+path=$1
+
+# msg=$(cat $path)
+msg="FIXED"
+length=${#msg} 
+shopt -s nocasematch
+
+keywords=("fixed" "updated" "added" "deleted")
+valid=0
+
+for keyword in "${keywords[@]}"
+do
+    if [[ $msg =~ $keyword ]]
+    then
+        valid=1
+    fi
+done
+
+if [[ $length>50 || $length<5 ]]
+then
+    valid=0
+fi
+
+if [ $valid -eq 0 ];
+then
+    echo "Commit format test failed. Please keep your commit message under 50 chars and inlcude fixed/updated/added/deleted in your commit message"
+    exit 1
+fi
+
+exit 0

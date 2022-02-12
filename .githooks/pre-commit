@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+LC_ALL=C
+
+local_branch="$(git rev-parse --abbrev-ref HEAD)"
+valid_branch_regex="^(feature|bug|chore|spike|research)\/[a-z0-9._-]+$"
+protected_branches="main"
+
+if [[ $local_branch = $branch ]]
+then
+    echo "Cannot commit changes to Development or Production Branch"
+    exit 1
+fi
+
+
+message="Branch name does not adhere to valid naming convention. Please follow ^(feature|bug|chore|spike|research)\/[a-z0-9._-] regex."
+
+if [[ ! $local_branch =~ $valid_branch_regex ]]
+then
+    echo "$message"
+    exit 1
+fi
+
+exit 0
