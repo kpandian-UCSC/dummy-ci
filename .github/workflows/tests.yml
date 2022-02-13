@@ -1,9 +1,9 @@
-name: Pylint
+name: Code-Quality
 
 on:
   push:
     branches: [main]
-  pull-request:
+  pull_request:
     branches: [main, feature/**]
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     - name: Set up Python 
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.9
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
@@ -32,7 +32,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
 
       - name: Install pip
         run: |
@@ -43,4 +43,4 @@ jobs:
           pip install -r requirements.txt
       - name: Run test suite
         run: |
-          pyest ./
+          pytest ./tests/*.py
