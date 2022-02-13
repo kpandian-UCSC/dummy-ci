@@ -2,7 +2,7 @@
 LC_ALL=C
 
 local_branch="$(git rev-parse --abbrev-ref HEAD)"
-valid_branch_regex="^(feature|bug|chore|spike|research)\/[a-z0-9._-]+$"
+valid_branch_regex="^(feature|bug|chore|spike|research)\/[a-zA-Z0-9._-]+$"
 protected_branch="main"
 
 if [[ $local_branch = $protected_branch ]]
