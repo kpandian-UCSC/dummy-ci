@@ -1,4 +1,4 @@
-from src.module1 import is_prime
+import pytest
 
-
-assert(is_prime(3) == True)
+def test_addition():
+    assert 1+2 == 3
