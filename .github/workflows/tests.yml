@@ -46,7 +46,7 @@ jobs:
           pytest ./tests/*.py
   auto-deploy-to-lambda:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     needs: [lint, test]
     steps:      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -82,12 +82,12 @@ jobs:
       - name: deploy
         run: |
           zip -j deploy.zip ./src/module1 #--> Zip the Code As we know lambda function accept the zip file.
-          aws lambda update-function-code --function-name=test --zip-file=fileb://deploy.zip 
+          aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
       
-      #Deploy main.py to AWS
-      - name: AWS Lambda Deploy
-        uses: appleboy/lambda-action@v0.0.4
-        with:
-          # TODO:::
-          function_name: orchestration_framework
-          zip_file: orchestration_framework.zip
+      # #Deploy main.py to AWS
+      # - name: AWS Lambda Deploy
+      #   uses: appleboy/lambda-action@v0.0.4
+      #   with:
+      #     # TODO:::
+      #     function_name: orchestration_framework
+      #     zip_file: orchestration_framework.zip
