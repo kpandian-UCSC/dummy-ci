@@ -46,7 +46,7 @@ jobs:
           pytest ./tests/*.py
   auto-deploy-to-lambda:
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     needs: [lint, test]
     steps:      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
