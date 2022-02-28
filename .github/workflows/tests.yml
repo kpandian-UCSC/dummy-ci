@@ -78,7 +78,7 @@ jobs:
       # Runs a set of commands using the runners shell; THIS DOESN'T WORK
       - name: deploy
         run: |
-          zip -j deploy.zip ./src/* #--> Zip the Code As we know lambda function accept the zip file.
+          zip -j ./deploy/deploy.zip ./src/* #--> Zip the Code As we know lambda function accept the zip file.
           pwd
           ls
           # aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
@@ -91,7 +91,7 @@ jobs:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: deploy.zip 
+          source_dir: deploy 
 
       # Upload Cloud Formations Template
       # - name: Deploy to AWS CloudFormation
