@@ -1,5 +1,5 @@
 '''
-Implementation of Module 1
+Implementation of Endpoint 2
 '''
 
 import json
@@ -9,5 +9,5 @@ def lambda_handler(event, context):
     ''' Sample Lambda Function'''
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello To Yall!')
+        'body': json.dumps('Hello Via Second Lambda Function!')
     }
