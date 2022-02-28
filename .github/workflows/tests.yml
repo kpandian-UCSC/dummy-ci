@@ -84,6 +84,7 @@ jobs:
           # aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
 
       # Upload to S3
+      - uses: actions/checkout@master
       - uses: shallwefootball/s3-upload-action@master
         name: Upload Files to S3 with coding
         id: S3
@@ -91,7 +92,7 @@ jobs:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: ./src/ 
+          source_dir: ./src/lambda_function.py 
 
       # Upload Cloud Formations Template
       # - name: Deploy to AWS CloudFormation
