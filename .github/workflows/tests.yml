@@ -19,7 +19,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip3 install pylint
-        pip3 install boto
+        pip3 install boto3
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
