@@ -1,7 +1,14 @@
-import boto3
+'''
+Script to AutoDeploy Lambda
+'''
 import sys
+import boto3
+
 
 def main():
+    '''
+    Function to take in arguments and autodeploy lambda
+    '''
     if len(sys.argv)  != 6:
         print('Error: Required 5 arguments.')
         sys.exit(1)
