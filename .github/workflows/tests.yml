@@ -79,6 +79,7 @@ jobs:
       - name: deploy
         run: |
           zip -j deploy.zip ./src/* #--> Zip the Code As we know lambda function accept the zip file.
+          find *.zip
           # aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
 
       # Upload to S3
