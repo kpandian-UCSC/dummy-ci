@@ -44,10 +44,11 @@ jobs:
       - name: Run test suite
         run: |
           pytest ./tests/*.py
+
   auto-deploy-to-lambda:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     needs: [lint, test]
+    if: github.ref == 'refs/heads/main'
     steps:      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       #does this mean that the files in my github repo are accessible by this YAML file?
@@ -78,12 +79,35 @@ jobs:
       - name: deploy
         run: |
           zip -j deploy.zip ./src/module1/* #--> Zip the Code As we know lambda function accept the zip file.
-          aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
-      
-      # #Deploy main.py to AWS
-      # - name: AWS Lambda Deploy
-      #   uses: appleboy/lambda-action@v0.0.4
+          # aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
+
+      # Upload to S3
+      - name: Upload file to bucket
+        uses: zdurham/s3-upload-github-action@master
+        with:
+          args: --acl public-read
+        env:
+          FILE: deploy.zip
+          AWS_REGION: 'us-west-1'
+          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          S3_KEY: ${{ secrets.S3_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  
+
+      # Upload Cloud Formations Template
+      # - name: Deploy to AWS CloudFormation
+      #   uses: aws-actions/aws-cloudformation-github-deploy@v1
       #   with:
-      #     # TODO:::
-      #     function_name: orchestration_framework
-      #     zip_file: orchestration_framework.zip
+      #     name: test-cf
+      #     template: cloud-formation.yaml
+      #     no-fail-on-empty-changeset: "1"
+
+      # Run Cloud Formations Template to Deploy
+
+
+
+# aws s3api put-object 
+#   --bucket my-lambda-functions 
+#   --key PullMarketCode
+#   --region eu-west-1 
+#   --body ./dist.zip
