@@ -9,5 +9,5 @@ def lambda_handler(event, context):
     ''' Sample Lambda Function'''
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello Lambda Deploy on same function test')
+        'body': json.dumps('Hello Lambda Deploy from same lambda packaging')
     }
