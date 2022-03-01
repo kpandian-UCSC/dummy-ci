@@ -7,7 +7,7 @@ Parameters:
     Default: test-bucket-cloudformations
     Type: String
   S3BucketKey:
-    AllowedPattern: [^\x00-\x7F]+
+    AllowedPattern: ^[a-zA-Z0-9_./]*$
     Default: deploy.zip
     Type: String
 
