@@ -81,7 +81,7 @@ jobs:
       - name: Delete Stack
         if: always()
         run: | 
-          aws cloudformation stack-delete-complete --stack-name Databricks-IR-Framework 
+          aws cloudformation wait stack-delete-complete --stack-name Databricks-IR-Framework 
 
       - name: Deploy
         run: |
