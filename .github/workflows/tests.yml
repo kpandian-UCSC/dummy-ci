@@ -82,4 +82,5 @@ jobs:
           zip -j deploy.zip ./src/* #--> Zip the Code As we know lambda function accept the zip file.
           bash scripts/release.sh ${{secrets.AWS_S3_BUCKET}} "deploy.zip" ${{secrets.AWS_ACCESS_KEY_ID}} ${{secrets.AWS_SECRET_ACCESS_KEY}} "deploy.zip"
           # aws lambda update-function-code --function-name=lambda-gh-action-test --zip-file=fileb://deploy.zip 
-          aws cloudformation create-stack --stack-name Databricks-IR-Framework --template-body cloud-formations.yaml --parameters ParameterKey=S3BucketName,ParameterValue=${{secrets.AWS_S3_BUCKET}} ParameterKey=S3BucketKey,ParameterValue=deploy.zip 
+          # aws cloudformation create-stack --stack-name Databricks-IR-Framework --template-body file://cloud-formations.yaml --parameters ParameterKey=S3BucketName,ParameterValue=${{secrets.AWS_S3_BUCKET}} ParameterKey=S3BucketKey,ParameterValue=deploy.zip 
+          
