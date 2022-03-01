@@ -86,4 +86,5 @@ jobs:
           --template-file cloud-formation.yaml \
           --parameter-overrides S3BucketName=${{secrets.AWS_S3_BUCKET}} S3BucketKey=deploy.zip \
           --capabilities CAPABILITY_NAMED_IAM
+          --no-fail-on-empty-changeset
           
