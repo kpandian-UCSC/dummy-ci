@@ -78,10 +78,10 @@ jobs:
           pip3 install -r requirements.txt
           pip3 install boto3
 
-      # - name: Delete Stack
-      #   if: always()
-      #   run: | 
-      #     aws cloudformation delete-stack --stack-name Databricks-IR-Framework 
+      - name: Delete Stack
+        if: always()
+        run: | 
+          aws cloudformation delete-stack-complete --stack-name Databricks-IR-Framework 
 
       - name: Deploy
         run: |
