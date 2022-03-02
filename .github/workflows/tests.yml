@@ -54,11 +54,7 @@ jobs:
     needs: [lint, test]
     # if: github.ref == 'refs/heads/main'
     steps:      
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #does this mean that the files in my github repo are accessible by this YAML file?
       - uses: actions/checkout@v2
-      
-      #installs a version of python, but I need this if deploying to a severless Python Lambda?
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -67,7 +63,6 @@ jobs:
       - name: Configure AWS credentials from Production account
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          # TODO:::
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-1
@@ -80,7 +75,7 @@ jobs:
         run: |
           pip3 install -r requirements.txt
           pip3 install boto3
-
+      # Maybe Asynchronous Deploy Issue exists?
       - name: Deploy
         run: |
           aws cloudformation package \
