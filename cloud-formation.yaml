@@ -24,7 +24,7 @@ Resources:
       MemorySize: 128
       Timeout: 60
   
-  Gateway:
+  Gateway1:
     Type: 'AWS::ApiGatewayV2::Api'
     DependsOn: Lambda1
     Properties:
@@ -39,7 +39,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ Lambda1, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway}/*
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
 
 
   Lambda2:
