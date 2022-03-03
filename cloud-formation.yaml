@@ -6,14 +6,17 @@ Parameters:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     Default: test-bucket-cloudformations
     Type: String
+    NoEcho: True
   S3BucketKey:
     AllowedPattern: ^[a-zA-Z0-9_./]*$
     Default: deploy.zip
     Type: String
+    NoEcho: True
   ENVExample:
     AllowedPattern: ^[a-zA-Z0-9_./]*$
     Default: TEST_ENV
     Type: String
+    NoEcho: True
 
 Resources:
   Lambda1:
@@ -28,7 +31,8 @@ Resources:
       MemorySize: 128
       Timeout: 60
       Environment:
-        MY_ENV: !Sub ENVExample
+        Variables:
+          MY_ENV: !Sub ENVExample
   
   Gateway1:
     Type: 'AWS::ApiGatewayV2::Api'
