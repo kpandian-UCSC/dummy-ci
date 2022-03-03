@@ -13,9 +13,9 @@ Parameters:
 
 Resources:
   Lambda1:
-    FunctionName: LambdaOne
     Type: "AWS::Lambda::Function"
     Properties:
+      FunctionName: LambdaOne
       Code: src/
       Description: "Code Description 1"
       Handler: "lambda_function.lambda_handler"
@@ -25,9 +25,9 @@ Resources:
       Timeout: 60
 
   Lambda2:
-    FunctionName: LambdaTwo
     Type: "AWS::Lambda::Function"
     Properties:
+      FunctionName: LambdaTwo
       Code: src/
       Description: "Code Description 2"
       Handler: "lambda_function2.lambda_handler"
