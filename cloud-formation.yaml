@@ -28,7 +28,7 @@ Resources:
     Type: 'AWS::ApiGatewayV2::Api'
     DependsOn: Lambda1
     Properties:
-      Name: Gateway-MyFunction
+      Name: Gateway-Lambda1
       Description: Lambda HTTP Gateway Proxy
       Target: !GetAtt [ Lambda1, Arn ]
       ProtocolType: "HTTP"
@@ -58,7 +58,7 @@ Resources:
     Type: 'AWS::ApiGatewayV2::Api'
     DependsOn: Lambda2
     Properties:
-      Name: Gateway-MyFunction
+      Name: Gateway-Lambda2
       Description: Lambda HTTP Gateway Proxy
       Target: !GetAtt [ Lambda2, Arn ]
       ProtocolType: "HTTP"
