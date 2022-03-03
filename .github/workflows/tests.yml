@@ -75,8 +75,9 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pip3 install -r requirements.txt
-          pip3 install boto3
+          cd src
+          pip3 install -r ../requirements.txt
+          cd ..
       # Maybe Asynchronous Deploy Issue exists?
       - name: Deploy
         run: |
