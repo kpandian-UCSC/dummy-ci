@@ -93,7 +93,9 @@ jobs:
           --template-file deploy.yaml \
           --stack-name Databricks-IR-Framework \
           --region us-west-1 \
-          --capabilities CAPABILITY_IAM
+          --capabilities CAPABILITY_IAM \
+          --parameter-overrides \
+          ENVExample=ITWORKS
 
 
           
