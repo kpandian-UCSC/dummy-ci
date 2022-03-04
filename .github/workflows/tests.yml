@@ -47,7 +47,7 @@ jobs:
           pip3 install -r requirements.txt
       - name: Run test suite
         run: |
-          pytest ./tests/ ; err=$? ; if (( $err != 5 )) ; then exit $err ; fi
+          pytest ./tests/
 
   auto-deploy-to-lambda:
     runs-on: ubuntu-latest
