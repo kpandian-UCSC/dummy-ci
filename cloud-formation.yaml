@@ -86,11 +86,8 @@ Resources:
     Properties:
       Name: MySecret
       Description: This should create a secret
-      Tags:
-        -
-          Key: KeyName
-          Value: ValueName
-          
+      SecretString: Correct?
+
   SampleLambdaRole:
     Type: "AWS::IAM::Role"
     Properties:
