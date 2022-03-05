@@ -23,11 +23,11 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip3 install -r requirements.txt
-        export PYTHONPATH=./src
+        export PYTHONPATH=$PATH/src
         echo $PYTHONPATH
-    - name: Analysing the code with pylint
+    - name: Analyzing the code with pylint
       run: |
-        pylint src/
+        pylint $(git ls-files '*.py')
   
   test:
     runs-on: ubuntu-latest
