@@ -12,9 +12,9 @@ Parameters:
     Default: deploy.zip
     Type: String
     NoEcho: True
-  ENVExample:
+  ENVname:
     AllowedPattern: ^[a-zA-Z0-9_./]*$
-    Default: TEST_ENV
+    Default: MY_VALUE
     Type: String
     NoEcho: True
 
@@ -81,12 +81,14 @@ Resources:
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
 
+
   MySecret:
     Type: 'AWS::SecretsManager::Secret'
     Properties:
       Name: MySecret
       Description: This should create a secret
-      SecretString: Correct?
+      SecretString: !sub ${ENVname}
+
 
   SampleLambdaRole:
     Type: "AWS::IAM::Role"
@@ -102,7 +104,7 @@ Resources:
         - PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: ["cloudwatch:*", "logs:*"]
+              - Action: ["cloudwatch:*", "logs:*", "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret", "secretsmanager:ListSecretVersionIds", "secretsmanager:ListSecrets"]
                 Effect: "Allow"
                 Resource: "*"
           PolicyName: "lambdaLogPolicy"
