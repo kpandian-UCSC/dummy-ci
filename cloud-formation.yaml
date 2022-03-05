@@ -37,7 +37,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          MY_ENV: !Sub ${ENVExample}
+          MY_ENV: !Sub ${ENVexample}
   
   Gateway1:
     Type: 'AWS::ApiGatewayV2::Api'
