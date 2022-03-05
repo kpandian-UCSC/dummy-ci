@@ -45,10 +45,10 @@ jobs:
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pip3 install -r requirements.txt
-          export PYTHONPATH=./
+          export PYTHONPATH=src/
       - name: Run test suite
         run: |
-          pytest ./tests/
+          pytest tests/
 
   auto-deploy-services:
     runs-on: ubuntu-latest

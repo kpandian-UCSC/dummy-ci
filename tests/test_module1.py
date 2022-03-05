@@ -1,13 +1,10 @@
 ''' Module for Unit Testing '''
-#from src.secrets.manager import get_lambda_secret
+from secrets.manager import get_lambda_secret
 
-import pytest
-
-print(pytest)
 def test_addition():
     ''' Testing an Addition '''
     assert 1+2 == 3
 
-# def test_get_lambda_secret():
-#     '''Testing Secret Function'''
-#     assert get_lambda_secret("key") == "a key"
+def test_get_lambda_secret():
+    '''Testing Secret Function'''
+    assert get_lambda_secret("key") == "a key"
