@@ -7,7 +7,7 @@ on:
     branches: [main, feature/**]
 
 concurrency:
-  group: auto-deploy-to-lambda
+  group: auto-deploy-services
 
 jobs:
   lint:
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [lint, test]
-    #if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     steps:      
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -98,6 +98,4 @@ jobs:
           --capabilities CAPABILITY_IAM \
           --parameter-overrides \
           ENVexample=ITWORKS
-
-
-          
+   
