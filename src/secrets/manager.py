@@ -1,9 +1,15 @@
+'''
+Amazon Secrets Manager
+'''
 # import boto3
 # import base64
 # from botocore.exceptions import ClientError
 
-
-def getLambdaSecret(secret_name, region_name: str = "us-west-1"):
+# pylint: disable=W0613
+def get_lambda_secret(secret_name, region_name: str = "us-west-1"):
+    '''
+    Get Lambda Secret Function
+    '''
     return "a key"
     # Create a Secrets Manager client
     # session = boto3.session.Session()
@@ -11,7 +17,7 @@ def getLambdaSecret(secret_name, region_name: str = "us-west-1"):
     #     service_name='secretsmanager',
     #     region_name=region_name
     # )
-    
+
     # try:
     #     get_secret_value_response = client.get_secret_value(
     #         SecretId = secret_name

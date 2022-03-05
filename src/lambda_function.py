@@ -4,15 +4,16 @@ Implementation of Module 1
 
 import json
 import os
-from secrets.manager import getLambdaSecret
+from secrets.manager import get_lambda_secret
 
 # pylint: disable=W0613
 def lambda_handler(event, context):
     ''' Sample Lambda Function'''
     env = os.environ.get('MY_ENV')
-    res = getLambdaSecret("MySecret")
+    res = get_lambda_secret("MySecret")
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello Lambda Deploy from same lambda os: {env}, sm: {res}'.format(env=env, res=res))
+        'body': json.dumps(
+            f'Hello Lambda Deploy from same lambda os: {env}, sm: {res}')
     }
-print(lambda_handler(0,0))
+# print(lambda_handler(0,0))
