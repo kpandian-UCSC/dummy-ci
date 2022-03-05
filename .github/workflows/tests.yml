@@ -23,11 +23,9 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip3 install -r requirements.txt
+        pip install -e .
     - name: Analyzing the code with pylint
       run: |
-        cd src/
-        pylint $(git ls-files '*.py')
-        cd ../tests
         pylint $(git ls-files '*.py')
   
   test:
