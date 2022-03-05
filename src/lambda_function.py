@@ -16,4 +16,4 @@ def lambda_handler(event, context):
         'body': json.dumps(
             f'Hello Lambda Deploy from same lambda os: {env}, sm: {res}')
     }
-# print(lambda_handler(0,0))
+print(lambda_handler(0,0))
