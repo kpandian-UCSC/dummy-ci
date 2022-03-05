@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Test Cloud Formation Deployment"
+
+Parameters:
+  S3BucketName:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    Default: test-bucket-cloudformations
+    Type: String
+    NoEcho: True
+  S3BucketKey:
+    AllowedPattern: ^[a-zA-Z0-9_./]*$
+    Default: deploy.zip
+    Type: String
+    NoEcho: True
+  ENVname:
+    AllowedPattern: ^[a-zA-Z0-9_./]*$
+    Default: MY_VALUE
+    Type: String
+    NoEcho: True
+  ENVexample:
+    AllowedPattern: ^[a-zA-Z0-9_./]*$
+    Default: MY_ENV
+    Type: String
+    NoEcho: True
+
+Resources:
+  Lambda1:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: LambdaOne
+      Code: src/
+      Description: "Code Description 1"
+      Handler: "lambda_function.lambda_handler"
+      Role: !GetAtt "SampleLambdaRole.Arn"
+      Runtime: python3.7
+      MemorySize: 128
+      Timeout: 60
+      Environment:
+        Variables:
+          MY_ENV: !Sub ${ENVexample}
+  
+  Gateway1:
+    Type: 'AWS::ApiGatewayV2::Api'
+    DependsOn: Lambda1
+    Properties:
+      Name: Gateway-Lambda1
+      Description: Lambda HTTP Gateway Proxy
+      Target: !GetAtt [ Lambda1, Arn ]
+      ProtocolType: "HTTP"
+
+  LambdaApiGatewayPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt [ Lambda1, Arn ]
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
+
+
+  Lambda2:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: LambdaTwo
+      Code: src/
+      Description: "Code Description 2"
+      Handler: "lambda_function2.lambda_handler"
+      Role: !GetAtt "SampleLambdaRole.Arn"
+      Runtime: python3.7
+      MemorySize: 128
+      Timeout: 60
+
+  Gateway2:
+    Type: 'AWS::ApiGatewayV2::Api'
+    DependsOn: Lambda2
+    Properties:
+      Name: Gateway-Lambda2
+      Description: Lambda HTTP Gateway Proxy
+      Target: !GetAtt [ Lambda2, Arn ]
+      ProtocolType: "HTTP"
+
+  LambdaApiGatewayPermission2:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt [ Lambda2, Arn ]
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
+
+
+  # MySecret:
+  #   Type: 'AWS::SecretsManager::Secret'
+  #   Properties:
+  #     Name: MySecret
+  #     Description: This should create a secret
+  #     SecretString: !sub ${ENVname}
+
+
+  SampleLambdaRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: ["sts:AssumeRole"]
+            Effect: "Allow"
+            Principal:
+              Service: ["lambda.amazonaws.com"]
+      Policies:
+        - PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Action: ["cloudwatch:*", 
+                "logs:*",                 
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecrets"]
+                Effect: "Allow"
+                Resource: "*"
+          PolicyName: "lambdaLogPolicy"

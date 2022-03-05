@@ -2,12 +2,13 @@
 Implementation of Module 1
 '''
 
-import json
-
-# pylint: disable=W0613
-def lambda_handler(event, context):
-    ''' Sample Lambda Function'''
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello To Yall!')
-    }
+def is_prime(n: int) -> bool:
+    '''
+    Function Docstring
+    '''
+    if n <= 2:
+        return True
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+        return True
