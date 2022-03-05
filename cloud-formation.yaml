@@ -109,7 +109,13 @@ Resources:
         - PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: ["cloudwatch:*", "logs:*"]
+              - Action: ["cloudwatch:*", 
+                "logs:*",                 
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecretVersionIds",
+                "secretsmanager:ListSecrets"]
                 Effect: "Allow"
                 Resource: "*"
           PolicyName: "lambdaLogPolicy"
