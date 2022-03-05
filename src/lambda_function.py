@@ -10,7 +10,7 @@ from secrets.manager import get_lambda_secret
 def lambda_handler(event, context):
     ''' Sample Lambda Function'''
     env = os.environ.get('MY_ENV')
-    res = get_lambda_secret("MySecret")
+    res = get_lambda_secret("test-key")
     return {
         'statusCode': 200,
         'body': json.dumps(
