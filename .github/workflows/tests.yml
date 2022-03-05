@@ -33,10 +33,10 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
+      # - name: Setup Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: 3.7
 
       - name: Install pip
         run: |
@@ -45,7 +45,7 @@ jobs:
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pip3 install -r requirements.txt
-          export PYTHONPATH=src/
+          export PYTHONPATH=./
       - name: Run test suite
         run: |
           pytest tests/
