@@ -1,3 +1,4 @@
 .env
 ci-example
 __pycache__/
+*.egg-info/
