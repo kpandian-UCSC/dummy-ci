@@ -1,11 +1,14 @@
 '''
 Amazon Secrets Manager
 '''
+# import base64
 import boto3
-import base64
 from botocore.exceptions import ClientError
 
 # pylint: disable=W0613
+# pylint: disable=W0611
+# pylint: disable=R1720
+# pylint: disable=C0103
 def get_lambda_secret(secret_name, region_name: str = "us-west-1"):
     '''
     Get Lambda Secret Function
@@ -44,10 +47,11 @@ def get_lambda_secret(secret_name, region_name: str = "us-west-1"):
             # We can't find the resource that you asked for.
             # Deal with the exception here, and/or rethrow at your discretion.
             raise e
-    else:
-        # Decrypts secret using the associated KMS CMK.
-        # Depending on whether the secret is a string or binary, one of these fields will be populated.
-        if 'SecretString' in get_secret_value_response:
-            secret = get_secret_value_response['SecretString']
-        else:
-            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+    # else:
+    #     # Decrypts secret using the associated KMS CMK.
+    #     # Depending on whether the secret is a string or binary, one of these fields will be populated.
+    #     if 'SecretString' in get_secret_value_response:
+    #         secret = get_secret_value_response['SecretString']
+    #     else:
+    #         decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+    return ""
