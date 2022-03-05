@@ -7,7 +7,7 @@ setup(
     license='none',
     description='An example python package with functions simulating depositing and withdrawing cash from a bank account',
     long_description=open('README.md').read(),
-    py_modules=['src', 'src/secrets'],
+    py_modules=['src', 'src/secrets/manager.py'],
     install_requires=[],
     url='REPOSITORY_URL',
     author='AUTHOR_NAME',
