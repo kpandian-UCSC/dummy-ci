@@ -5,7 +5,7 @@ setup(
     version='0.1',
     packages=find_packages(exclude=['tests*']),
     license='none',
-    description='An example python package with functions simulating depositing and withdrawing cash from a bank account',
+    description='Databricks Orchestration Framework',
     long_description=open('README.md').read(),
     py_modules=['src/'],
     install_requires=[],
