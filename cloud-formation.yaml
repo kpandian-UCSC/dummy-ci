@@ -17,6 +17,11 @@ Parameters:
     Default: MY_VALUE
     Type: String
     NoEcho: True
+  ENVexample:
+    AllowedPattern: ^[a-zA-Z0-9_./]*$
+    Default: MY_ENV
+    Type: String
+    NoEcho: True
 
 Resources:
   Lambda1:

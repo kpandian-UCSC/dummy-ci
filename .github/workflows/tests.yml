@@ -97,7 +97,7 @@ jobs:
           --region us-west-1 \
           --capabilities CAPABILITY_IAM \
           --parameter-overrides \
-          ENVname=ITWORKS
+          ENVExample=ITWORKS
 
 
           
