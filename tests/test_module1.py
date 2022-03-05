@@ -1,6 +1,5 @@
 ''' Module for Unit Testing '''
-
-from secrets.manager import get_lambda_secret
+from src.secrets.manager import get_lambda_secret
 
 def test_addition():
     ''' Testing an Addition '''

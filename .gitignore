@@ -1,2 +1,3 @@
 .env
 ci-example
+__pycache__/

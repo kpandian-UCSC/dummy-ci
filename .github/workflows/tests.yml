@@ -45,7 +45,7 @@ jobs:
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pip3 install -r requirements.txt
-          export PYTHONPATH=src/
+          export PYTHONPATH=./
       - name: Run test suite
         run: |
           pytest ./tests/
