@@ -111,10 +111,8 @@ Resources:
             Statement:
               - Action: ["cloudwatch:*", 
                 "logs:*",                 
-                "secretsmanager:GetResourcePolicy",
                 "secretsmanager:GetSecretValue",
                 "secretsmanager:DescribeSecret",
-                "secretsmanager:ListSecretVersionIds",
                 "secretsmanager:ListSecrets"]
                 Effect: "Allow"
                 Resource: "*"
