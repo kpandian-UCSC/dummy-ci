@@ -87,12 +87,12 @@ Resources:
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
 
 
-  MySecret:
-    Type: 'AWS::SecretsManager::Secret'
-    Properties:
-      Name: MySecret
-      Description: This should create a secret
-      SecretString: !sub ${ENVname}
+  # MySecret:
+  #   Type: 'AWS::SecretsManager::Secret'
+  #   Properties:
+  #     Name: MySecret
+  #     Description: This should create a secret
+  #     SecretString: !sub ${ENVname}
 
 
   SampleLambdaRole:
