@@ -51,7 +51,9 @@ jobs:
           pip install -e .
       - name: Run test suite
         run: |
-          pytest tests/
+          pwd
+          ls
+          pytest 
 
   auto-deploy-services:
     runs-on: ubuntu-latest
