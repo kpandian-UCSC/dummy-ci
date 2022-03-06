@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [lint, test]
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     steps:      
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -76,9 +76,8 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          cd src
-          pip3 install -r ../requirements.txt
-          cd ..
+          pip3 install -r requirements.txt
+          pip install -e .
       # Maybe Asynchronous Deploy Issue exists?
       - name: Deploy
         run: |
