@@ -50,9 +50,7 @@ jobs:
           pip3 install -r ../requirements.txt
           pip install -e .
       - name: Run test suite
-        run: |
-          pwd
-          ls
+        run: |          
           pytest 
 
   auto-deploy-services:
@@ -87,6 +85,7 @@ jobs:
       # Maybe Asynchronous Deploy Issue exists?
       - name: Deploy
         run: |
+          rm -r src/tests
           aws cloudformation package \
           --template-file cloud-formation.yaml \
           --s3-bucket ${{secrets.AWS_S3_BUCKET}} \
