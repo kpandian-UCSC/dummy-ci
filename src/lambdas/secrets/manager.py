@@ -9,6 +9,7 @@ Amazon Secrets Manager
 # pylint: disable=W0611
 # pylint: disable=R1720
 # pylint: disable=C0103
+# pylint: disable=C0301
 def get_lambda_secret(secret_name, region_name: str = "us-west-1"):
     '''
     Get Lambda Secret Function

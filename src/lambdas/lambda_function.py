@@ -4,7 +4,7 @@ Implementation of Module 1
 
 import json
 import os
-from src.secrets.manager import get_lambda_secret
+from lambdas.secrets.manager import get_lambda_secret
 
 # pylint: disable=W0613
 def lambda_handler(event, context):

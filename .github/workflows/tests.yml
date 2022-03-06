@@ -21,8 +21,9 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
+        cd src/
         python3 -m pip install --upgrade pip
-        pip3 install -r requirements.txt
+        pip3 install -r ../requirements.txt
         pip install -e .
     - name: Analyzing the code with pylint
       run: |
@@ -45,11 +46,12 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pip3 install -r requirements.txt
+          cd src/
+          pip3 install -r ../requirements.txt
           pip install -e .
       - name: Run test suite
         run: |
-          pytest .tests/
+          pytest tests/
 
   auto-deploy-services:
     runs-on: ubuntu-latest
@@ -76,8 +78,10 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pip3 install -r requirements.txt
+          cd src/
+          pip3 install -r ../requirements.txt
           pip install -e .
+          cd ..
       # Maybe Asynchronous Deploy Issue exists?
       - name: Deploy
         run: |

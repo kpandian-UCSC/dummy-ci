@@ -1,6 +1,6 @@
 ''' Module for Unit Testing '''
-from src.secrets.manager import get_lambda_secret
-from src.lambda_function2 import lambda_handler
+from lambdas.secrets.manager import get_lambda_secret
+from lambdas.lambda_function2 import lambda_handler
 
 def test_addition():
     ''' Testing an Addition '''
