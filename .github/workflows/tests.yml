@@ -51,13 +51,13 @@ jobs:
           pip install -e .
       - name: Run test suite
         run: |          
-          pytest 
+          pytest src/
 
   auto-deploy-services:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [lint, test]
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     steps:      
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -82,7 +82,7 @@ jobs:
           pip3 install -r ../requirements.txt
           pip install -e .
           cd ..
-      # Maybe Asynchronous Deploy Issue exists?
+
       - name: Deploy
         run: |
           rm -r src/tests
@@ -99,7 +99,5 @@ jobs:
           --template-file deploy.yaml \
           --stack-name Databricks-IR-Framework \
           --region us-west-1 \
-          --capabilities CAPABILITY_IAM \
-          --parameter-overrides \
-          ENVexample=ITWORKS
+          --capabilities CAPABILITY_IAM
    

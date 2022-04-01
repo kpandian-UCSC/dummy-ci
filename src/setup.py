@@ -8,7 +8,7 @@ setup(
     license='none',
     description='Databricks Orchestration Framework',
     long_description=open('../README.md').read(),
-    py_modules=['lambda/'],
+    py_modules=['lambdas/'],
     install_requires=[],
     url='REPOSITORY_URL',
     author='AUTHOR_NAME',
