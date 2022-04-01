@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [main, feature/**]
 
+concurrency:
+  group: auto-deploy-services
+
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 
@@ -17,9 +21,11 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
+        cd src/
         python3 -m pip install --upgrade pip
-        pip3 install pylint
-    - name: Analysing the code with pylint
+        pip3 install -r ../requirements.txt
+        pip install -e .
+    - name: Analyzing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
   
@@ -40,20 +46,20 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pip install -r requirements.txt
+          cd src/
+          pip3 install -r ../requirements.txt
+          pip install -e .
       - name: Run test suite
-        run: |
-          pytest ./tests/*.py
-  auto-deploy-to-lambda:
+        run: |          
+          pytest 
+
+  auto-deploy-services:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 5
     needs: [lint, test]
+    # if: github.ref == 'refs/heads/main'
     steps:      
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #does this mean that the files in my github repo are accessible by this YAML file?
       - uses: actions/checkout@v2
-      
-      #installs a version of python, but I need this if deploying to a severless Python Lambda?
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -62,14 +68,9 @@ jobs:
       - name: Configure AWS credentials from Production account
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          # TODO:::
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-          profile_name: default
-          project_name: project_name
-          runtime: python3.7
-          s3_bucket: bucket_name
+          aws-region: us-west-1
       
       - name: Install pip
         run: |
@@ -77,17 +78,28 @@ jobs:
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pip install -r requirements.txt
-      # Runs a set of commands using the runners shell; THIS DOESN'T WORK
-      - name: deploy
+          cd src/
+          pip3 install -r ../requirements.txt
+          pip install -e .
+          cd ..
+      # Maybe Asynchronous Deploy Issue exists?
+      - name: Deploy
         run: |
-          zip -j deploy.zip ./src/module1 #--> Zip the Code As we know lambda function accept the zip file.
-          aws lambda update-function-code --function-name=test --zip-file=fileb://deploy.zip 
-      
-      #Deploy main.py to AWS
-      - name: AWS Lambda Deploy
-        uses: appleboy/lambda-action@v0.0.4
-        with:
-          # TODO:::
-          function_name: orchestration_framework
-          zip_file: orchestration_framework.zip
+          rm -r src/tests
+          aws cloudformation package \
+          --template-file cloud-formation.yaml \
+          --s3-bucket ${{secrets.AWS_S3_BUCKET}} \
+          --s3-prefix deploy \
+          --output-template-file deploy.yaml
+
+          aws cloudformation validate-template \
+            --template-body file://deploy.yaml
+
+          aws cloudformation deploy \
+          --template-file deploy.yaml \
+          --stack-name Databricks-IR-Framework \
+          --region us-west-1 \
+          --capabilities CAPABILITY_IAM \
+          --parameter-overrides \
+          ENVexample=ITWORKS
+   
