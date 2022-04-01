@@ -1,6 +1,7 @@
 '''Module for Logging Request Input and Output '''
 import json
 
+# pylint: disable=W0613
 def lambda_handler(event, context):
     ''' Sample Lambda Function'''
     return {
