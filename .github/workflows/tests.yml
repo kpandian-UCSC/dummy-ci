@@ -97,7 +97,7 @@ jobs:
 
           aws cloudformation deploy \
           --template-file deploy.yaml \
-          --stack-name Databricks-IR-Framework-test \
+          --stack-name Databricks-IR-Framework-gateway \
           --region us-west-1 \
           --capabilities CAPABILITY_IAM \
           --parameter-overrides \
