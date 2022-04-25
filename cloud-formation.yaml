@@ -48,13 +48,13 @@ Resources:
       IntegrationType: AWS_PROXY
       IntegrationMethod: POST
       PayloadFormatVersion: "2.0"
-      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaOne.Arn}/invocations'
+      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Lambda1.Arn}/invocations'
 
   DemoApiRoute:
     Type: AWS::ApiGatewayV2::Route
     DependsOn: Lambda1
     Properties:
-      ApiId: !Ref LambdaOne
+      ApiId: !Ref Lambda1
       RouteKey: "POST /demo"
       Target: !Join
         - /
