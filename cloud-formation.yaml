@@ -24,6 +24,46 @@ Parameters:
     NoEcho: True
 
 Resources:
+
+  apiGateway:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Name: "example-api-gw"
+      Description: "Example API"
+
+  ProxyResource:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      ParentId: !GetAtt apiGateway.RootResourceId
+      RestApiId: !Ref apiGateway
+      PathPart: '{proxy+}'
+
+  apiGatewayRootMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        IntegrationResponses:
+          -
+            StatusCode: 200
+        Uri: !Sub
+          - "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations"
+          - lambdaArn: !GetAtt "Lambda1.Arn"
+      ResourceId: !Ref ProxyResource
+      RestApiId: !Ref "apiGateway"
+
+
+  apiGatewayDeployment:
+    Type: "AWS::ApiGateway::Deployment"
+    DependsOn:
+      - "apiGatewayRootMethod"
+    Properties:
+      RestApiId: !Ref "apiGateway"
+      StageName: !Ref "apiGatewayStageName"
+
   Lambda1:
     Type: "AWS::Lambda::Function"
     Properties:
@@ -38,15 +78,6 @@ Resources:
       Environment:
         Variables:
           MY_ENV: !Sub ${ENVexample}
-
-  Gateway1:
-    Type: 'AWS::ApiGatewayV2::Api'
-    DependsOn: Lambda1
-    Properties:
-      Name: Gateway-Lambda1
-      Description: Lambda HTTP Gateway Proxy
-      Target: !GetAtt [ Lambda1, Arn ]
-      ProtocolType: "HTTP"
 
   LambdaApiGatewayPermission:
     Type: AWS::Lambda::Permission
