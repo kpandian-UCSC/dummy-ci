@@ -22,7 +22,14 @@ Parameters:
     Default: MY_ENV
     Type: String
     NoEcho: True
-
+  apiGatewayStageName: 
+    Type: String
+    Default: "dev"
+    AllowedValues: 
+      - dev
+      - staging
+      - prod
+    Description: Enter dev, staging, prod.
 Resources:
 
   apiGateway:
