@@ -40,7 +40,7 @@ Resources:
           MY_ENV: !Sub ${ENVexample}
   
   Gateway1:
-    Type: 'AWS::ApiGatewayV2::Api'
+    Type: 'AWS::ApiGateway::RestApi'
     DependsOn: Lambda1
     Properties:
       Name: Gateway-Lambda1
@@ -70,7 +70,7 @@ Resources:
       Timeout: 60
 
   Gateway2:
-    Type: 'AWS::ApiGatewayV2::Api'
+    Type: 'AWS::ApiGateway::RestApi'
     DependsOn: Lambda2
     Properties:
       Name: Gateway-Lambda2
