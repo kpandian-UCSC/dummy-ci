@@ -92,7 +92,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ Lambda1, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*
 
 
   # Lambda2:
