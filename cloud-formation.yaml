@@ -24,10 +24,10 @@ Parameters:
     NoEcho: True
 
 Resources:
-  Lambda1:
+  GatewayLambda:
     Type: "AWS::Lambda::Function"
     Properties:
-      FunctionName: LambdaOne
+      FunctionName: GatewayLambda
       Code: src/
       Description: "Code Description 1"
       Handler: "lambdas/lambda_function.lambda_handler"
@@ -39,52 +39,77 @@ Resources:
         Variables:
           MY_ENV: !Sub ${ENVexample}
   
-  Gateway1:
-    Type: 'AWS::ApiGatewayV2::Api'
-    DependsOn: Lambda1
-    Properties:
-      Name: Gateway-Lambda1
-      Description: Lambda HTTP Gateway Proxy
-      Target: !GetAtt [ Lambda1, Arn ]
-      ProtocolType: "HTTP"
+  # Gateway1:
+  #   Type: 'AWS::ApiGatewayV2::Api'
+  #   DependsOn: Lambda1
+  #   Properties:
+  #     Name: Gateway-Lambda1
+  #     Description: Lambda HTTP Gateway Proxy
+  #     Target: !GetAtt [ Lambda1, Arn ]
+  #     ProtocolType: "HTTP"
 
   LambdaApiGatewayPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
-      FunctionName: !GetAtt [ Lambda1, Arn ]
+      FunctionName: !GetAtt [ GatewayLambda, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${SampleApi}/*
 
-
-  Lambda2:
-    Type: "AWS::Lambda::Function"
+  SampleApi:
+    Type: "AWS::ApiGateway::RestApi"
     Properties:
-      FunctionName: LambdaTwo
-      Code: src/
-      Description: "Code Description 2"
-      Handler: "lambdas/lambda_function2.lambda_handler"
-      Role: !GetAtt "SampleLambdaRole.Arn"
-      Runtime: python3.7
-      MemorySize: 128
-      Timeout: 60
+      Name: Sample
 
-  Gateway2:
-    Type: 'AWS::ApiGatewayV2::Api'
-    DependsOn: Lambda2
+  SampleApiMethod:
+    Type: "AWS::ApiGateway::Method"
     Properties:
-      Name: Gateway-Lambda2
-      Description: Lambda HTTP Gateway Proxy
-      Target: !GetAtt [ Lambda2, Arn ]
-      ProtocolType: "HTTP"
+      AuthorizationType: "NONE"
+      HttpMethod: "POST"
+      Integration:
+        IntegrationHttpMethod: "POST"
+        Type: "AWS_PROXY"
+        Uri: !Sub
+          - "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations"
+          - lambdaArn: !GetAtt "GatewayLambda.Arn"
+      ResourceId: !GetAtt "SampleApi.RootResourceId"
+      RestApiId: !Ref "SampleApi"
 
-  LambdaApiGatewayPermission2:
-    Type: AWS::Lambda::Permission
+  SampleApiDeployment:
+    Type: "AWS::ApiGateway::Deployment"
+    DependsOn: "SampleApiMethod"
     Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !GetAtt [ Lambda2, Arn ]
-      Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
+      RestApiId: !Ref "SampleApi"
+      StageName: test
+
+  # Lambda2:
+  #   Type: "AWS::Lambda::Function"
+  #   Properties:
+  #     FunctionName: LambdaTwo
+  #     Code: src/
+  #     Description: "Code Description 2"
+  #     Handler: "lambdas/lambda_function2.lambda_handler"
+  #     Role: !GetAtt "SampleLambdaRole.Arn"
+  #     Runtime: python3.7
+  #     MemorySize: 128
+  #     Timeout: 60
+
+  # Gateway2:
+  #   Type: 'AWS::ApiGatewayV2::Api'
+  #   DependsOn: Lambda2
+  #   Properties:
+  #     Name: Gateway-Lambda2
+  #     Description: Lambda HTTP Gateway Proxy
+  #     Target: !GetAtt [ Lambda2, Arn ]
+  #     ProtocolType: "HTTP"
+
+  # LambdaApiGatewayPermission2:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     Action: lambda:InvokeFunction
+  #     FunctionName: !GetAtt [ Lambda2, Arn ]
+  #     Principal: apigateway.amazonaws.com
+  #     SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
 
 
   # MySecret:
@@ -117,3 +142,4 @@ Resources:
                 Effect: "Allow"
                 Resource: "*"
           PolicyName: "lambdaLogPolicy"
+
