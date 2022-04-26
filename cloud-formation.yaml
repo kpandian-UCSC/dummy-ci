@@ -30,8 +30,8 @@ Parameters:
       - staging
       - prod
     Description: Enter dev, staging, prod.
-Resources:
 
+Resources:
   apiGateway:
     Type: "AWS::ApiGateway::RestApi"
     Properties:
@@ -43,7 +43,6 @@ Resources:
     Properties:
       ParentId: !GetAtt apiGateway.RootResourceId
       RestApiId: !Ref apiGateway
-      PathPart: '{proxy+}'
 
   apiGatewayRootMethod:
     Type: "AWS::ApiGateway::Method"
