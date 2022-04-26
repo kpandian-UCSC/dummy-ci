@@ -169,7 +169,7 @@ Resources:
         ReadCapacityUnits: '5'
         WriteCapacityUnits: '5'
     DependsOn:
-      - IAMRole
+      - SampleLambdaRole
 
   SampleLambdaRole:
     Type: "AWS::IAM::Role"
