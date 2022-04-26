@@ -65,7 +65,7 @@ Resources:
     Type: "AWS::ApiGateway::Method"
     Properties:
       AuthorizationType: "NONE"
-      HttpMethod: "GET"
+      HttpMethod: "POST"
       Integration:
         IntegrationHttpMethod: "POST"
         Type: "AWS_PROXY"
