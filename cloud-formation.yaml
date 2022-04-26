@@ -142,3 +142,4 @@ Resources:
                 Effect: "Allow"
                 Resource: "*"
           PolicyName: "lambdaLogPolicy"
+
