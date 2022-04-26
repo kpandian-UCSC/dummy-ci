@@ -57,34 +57,34 @@ Resources:
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
 
 
-  Lambda2:
-    Type: "AWS::Lambda::Function"
-    Properties:
-      FunctionName: LambdaTwo
-      Code: src/
-      Description: "Code Description 2"
-      Handler: "lambdas/lambda_function2.lambda_handler"
-      Role: !GetAtt "SampleLambdaRole.Arn"
-      Runtime: python3.7
-      MemorySize: 128
-      Timeout: 60
+  # Lambda2:
+  #   Type: "AWS::Lambda::Function"
+  #   Properties:
+  #     FunctionName: LambdaTwo
+  #     Code: src/
+  #     Description: "Code Description 2"
+  #     Handler: "lambdas/lambda_function2.lambda_handler"
+  #     Role: !GetAtt "SampleLambdaRole.Arn"
+  #     Runtime: python3.7
+  #     MemorySize: 128
+  #     Timeout: 60
 
-  Gateway2:
-    Type: 'AWS::ApiGatewayV2::Api'
-    DependsOn: Lambda2
-    Properties:
-      Name: Gateway-Lambda2
-      Description: Lambda HTTP Gateway Proxy
-      Target: !GetAtt [ Lambda2, Arn ]
-      ProtocolType: "HTTP"
+  # Gateway2:
+  #   Type: 'AWS::ApiGatewayV2::Api'
+  #   DependsOn: Lambda2
+  #   Properties:
+  #     Name: Gateway-Lambda2
+  #     Description: Lambda HTTP Gateway Proxy
+  #     Target: !GetAtt [ Lambda2, Arn ]
+  #     ProtocolType: "HTTP"
 
-  LambdaApiGatewayPermission2:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !GetAtt [ Lambda2, Arn ]
-      Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
+  # LambdaApiGatewayPermission2:
+  #   Type: AWS::Lambda::Permission
+  #   Properties:
+  #     Action: lambda:InvokeFunction
+  #     FunctionName: !GetAtt [ Lambda2, Arn ]
+  #     Principal: apigateway.amazonaws.com
+  #     SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway2}/*
 
 
   # MySecret:
