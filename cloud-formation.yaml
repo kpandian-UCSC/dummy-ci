@@ -154,6 +154,22 @@ Resources:
   #     Description: This should create a secret
   #     SecretString: !sub ${ENVname}
 
+  DynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName:
+        Ref: DynamoDBTableName
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '5'
+        WriteCapacityUnits: '5'
+    DependsOn:
+      - IAMRole
 
   SampleLambdaRole:
     Type: "AWS::IAM::Role"
@@ -169,11 +185,22 @@ Resources:
         - PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Action: ["cloudwatch:*", 
+              - Action: [
+                "cloudwatch:*", 
                 "logs:*",                 
                 "secretsmanager:GetSecretValue",
                 "secretsmanager:DescribeSecret",
-                "secretsmanager:ListSecrets"]
+                "secretsmanager:ListSecrets",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:TagResource",
+                "dynamodb:UntagResource",
+                "dynamodb:PutItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:UpdateItem"]
                 Effect: "Allow"
                 Resource: "*"
           PolicyName: "lambdaLogPolicy"
