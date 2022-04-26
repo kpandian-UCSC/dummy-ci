@@ -54,7 +54,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ GatewayLambda, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${GatewayLambda}/*
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${SampleApi}/*
 
   SampleApi:
     Type: "AWS::ApiGateway::RestApi"
