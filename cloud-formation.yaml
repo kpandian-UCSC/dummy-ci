@@ -61,6 +61,21 @@ Resources:
       ResourceId: !Ref ProxyResource
       RestApiId: !Ref "apiGateway"
 
+  apiGatewayRootMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: POST
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        IntegrationResponses:
+          - StatusCode: 200
+        Uri: !Sub
+          - "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations"
+          - lambdaArn: !GetAtt "Lambda2.Arn"
+      ResourceId: !Ref ProxyResource
+      RestApiId: !Ref "apiGateway"
 
   apiGatewayDeployment:
     Type: "AWS::ApiGateway::Deployment"
@@ -91,7 +106,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ Lambda1, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/LambdaOne
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*
 
 
   Lambda2:
@@ -121,7 +136,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ Lambda2, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/LambdaTwo
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*
 
 
   # MySecret:
