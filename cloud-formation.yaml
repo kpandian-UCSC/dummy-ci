@@ -24,10 +24,10 @@ Parameters:
     NoEcho: True
 
 Resources:
-  Lambda1:
+  apilambda:
     Type: "AWS::Lambda::Function"
     Properties:
-      FunctionName: LambdaOne
+      FunctionName: apilambda
       Code: src/
       Description: "Code Description 1"
       Handler: "lambdas/lambda_function.lambda_handler"
@@ -41,18 +41,18 @@ Resources:
   
   Gateway1:
     Type: 'AWS::ApiGatewayV2::Api'
-    DependsOn: Lambda1
+    DependsOn: apilambda
     Properties:
       Name: Gateway-Lambda1
       Description: Lambda HTTP Gateway Proxy
-      Target: !GetAtt [ Lambda1, Arn ]
+      Target: !GetAtt [ apilambda, Arn ]
       ProtocolType: "HTTP"
 
   LambdaApiGatewayPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
-      FunctionName: !GetAtt [ Lambda1, Arn ]
+      FunctionName: !GetAtt [ apilambda, Arn ]
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
 
