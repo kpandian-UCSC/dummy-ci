@@ -52,7 +52,7 @@ Resources:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
-      FunctionName: !GetAtt [ Lambda1, Arn ]
+      FunctionName: !GetAtt [ GatewayLambda, Arn ]
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Gateway1}/*
 
