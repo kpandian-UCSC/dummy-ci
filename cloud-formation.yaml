@@ -43,6 +43,7 @@ Resources:
     Properties:
       ParentId: !GetAtt apiGateway.RootResourceId
       RestApiId: !Ref apiGateway
+      PathPart: '{proxy+}'
 
   apiGatewayRootMethod:
     Type: "AWS::ApiGateway::Method"
@@ -51,7 +52,7 @@ Resources:
       HttpMethod: ANY
       Integration:
         IntegrationHttpMethod: POST
-        Type: AWS_PROXY
+        Type: HTTP_PROXY
         IntegrationResponses:
           -
             StatusCode: 200
