@@ -157,8 +157,7 @@ Resources:
   DynamoDBTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
-      TableName:
-        Ref: DynamoDBTableName
+      TableName: SomeDB
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
