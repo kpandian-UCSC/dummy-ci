@@ -52,7 +52,9 @@ Resources:
       HttpMethod: ANY
       Integration:
         IntegrationHttpMethod: POST
-        Type: HTTP
+        Type: AWS_PROXY
+        IntegrationResponses:
+          - StatusCode: 200
         Uri: !Sub
           - "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations"
           - lambdaArn: !GetAtt "Lambda1.Arn"
