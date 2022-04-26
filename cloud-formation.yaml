@@ -114,7 +114,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ Lambda1, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/LambdaOne
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*
 
 
   Lambda2:
@@ -144,7 +144,7 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt [ Lambda2, Arn ]
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/LambdaTwo
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiGateway}/*
 
 
   # MySecret:
