@@ -55,6 +55,7 @@ Resources:
   apiGatewayOneMethod:
     Type: "AWS::ApiGateway::Method"
     Properties:
+      ResourcePath: '/api/lambdaone/'
       AuthorizationType: NONE
       HttpMethod: POST
       Integration:
@@ -71,6 +72,7 @@ Resources:
   apiGatewayTwoMethod:
     Type: "AWS::ApiGateway::Method"
     Properties:
+      ResourcePath: '/api/lambdatwo/'
       AuthorizationType: NONE
       HttpMethod: POST
       Integration:
@@ -192,10 +194,7 @@ Resources:
                 "secretsmanager:ListSecrets",
                 "dynamodb:BatchGetItem",
                 "dynamodb:BatchWriteItem",
-                "dynamodb:TagResource",
-                "dynamodb:UntagResource",
                 "dynamodb:PutItem",
-                "dynamodb:DeleteItem",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
                 "dynamodb:Query",
